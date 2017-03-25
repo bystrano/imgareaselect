@@ -372,7 +372,7 @@ $.imgAreaSelect = function (img, options) {
              * current handler
              */
             if ($.imgAreaSelect.onKeyPress != docKeyPress)
-                $(document).unbind($.imgAreaSelect.keyPress,
+                $(document).off($.imgAreaSelect.keyPress,
                     $.imgAreaSelect.onKeyPress);
 
             if (options.keys)
@@ -486,7 +486,7 @@ $.imgAreaSelect = function (img, options) {
         if (options.autoHide || selection.width * selection.height == 0)
             hide($box.add($outer), function () { $(this).hide(); });
 
-        $(document).unbind('mousemove', selectingMouseMove);
+        $(document).off('mousemove', selectingMouseMove);
         $box.mousemove(areaMouseMove);
         
         options.onSelectEnd(img, getSelection());
@@ -513,19 +513,19 @@ $.imgAreaSelect = function (img, options) {
             
             $(document).mousemove(selectingMouseMove)
                 .one('mouseup', docMouseUp);
-            $box.unbind('mousemove', areaMouseMove);
+            $box.off('mousemove', areaMouseMove);
         }
         else if (options.movable) {
             startX = left + selection.x1 - evX(event);
             startY = top + selection.y1 - evY(event);
 
-            $box.unbind('mousemove', areaMouseMove);
+            $box.off('mousemove', areaMouseMove);
 
             $(document).mousemove(movingMouseMove)
                 .one('mouseup', function () {
                     options.onSelectEnd(img, getSelection());
 
-                    $(document).unbind('mousemove', movingMouseMove);
+                    $(document).off('mousemove', movingMouseMove);
                     $box.mousemove(areaMouseMove);
                 });
         }
@@ -676,7 +676,7 @@ $.imgAreaSelect = function (img, options) {
      * Start selection
      */
     function startSelection() {
-        $(document).unbind('mousemove', startSelection);
+        $(document).off('mousemove', startSelection);
         adjust();
 
         x2 = x1;
@@ -691,9 +691,9 @@ $.imgAreaSelect = function (img, options) {
 
         shown = true;
 
-        $(document).unbind('mouseup', cancelSelection)
+        $(document).off('mouseup', cancelSelection)
             .mousemove(selectingMouseMove).one('mouseup', docMouseUp);
-        $box.unbind('mousemove', areaMouseMove);
+        $box.off('mousemove', areaMouseMove);
 
         options.onSelectStart(img, getSelection());
     }
@@ -702,8 +702,8 @@ $.imgAreaSelect = function (img, options) {
      * Cancel selection
      */
     function cancelSelection() {
-        $(document).unbind('mousemove', startSelection)
-            .unbind('mouseup', cancelSelection);
+        $(document).off('mousemove', startSelection)
+            .off('mouseup', cancelSelection);
         hide($box.add($outer));
         
         setSelection(selX(x1), selY(y1), selX(x1), selY(y1));
@@ -985,12 +985,12 @@ $.imgAreaSelect = function (img, options) {
         /* Calculate the aspect ratio factor */
         aspectRatio = (d = (options.aspectRatio || '').split(/:/))[0] / d[1];
 
-        $img.add($outer).unbind('mousedown', imgMouseDown);
-        
+        $img.add($outer).off('mousedown', imgMouseDown);
+
         if (options.disable || options.enable === false) {
             /* Disable the plugin */
-            $box.unbind('mousemove', areaMouseMove).unbind('mousedown', areaMouseDown);
-            $(window).unbind('resize', windowResize);
+            $box.off('mousemove', areaMouseMove).off('mousedown', areaMouseDown);
+            $(window).off('resize', windowResize);
         }
         else {
             if (options.enable || options.disable === false) {
