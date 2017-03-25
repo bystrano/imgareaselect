@@ -260,7 +260,7 @@ $.imgAreaSelect = function (img, options) {
          * positive number. The latter might happen when imgAreaSelect is put
          * on a parent element which is then hidden.
          */
-        if (!imgLoaded || !$img.width())
+        if (!imgLoaded || !round($img.width()))
             return;
         
         /*
@@ -270,11 +270,11 @@ $.imgAreaSelect = function (img, options) {
         imgOfs = { left: round($img.offset().left), top: round($img.offset().top) };
         
         /* Get image dimensions */
-        imgWidth = $img.innerWidth();
-        imgHeight = $img.innerHeight();
-        
-        imgOfs.top += ($img.outerHeight() - imgHeight) >> 1;
-        imgOfs.left += ($img.outerWidth() - imgWidth) >> 1;
+        imgWidth = round($img.innerWidth());
+        imgHeight = round($img.innerHeight());
+
+        imgOfs.top += round($img.outerHeight() - imgHeight) >> 1;
+        imgOfs.left += round($img.outerWidth() - imgWidth) >> 1;
 
         /* Set minimum and maximum selection area dimensions */
         minWidth = round(options.minWidth / scaleX) || 0;
@@ -338,8 +338,8 @@ $.imgAreaSelect = function (img, options) {
 
         /* Set border dimensions */
         $border
-            .width(max(w - $border.outerWidth() + $border.innerWidth(), 0))
-            .height(max(h - $border.outerHeight() + $border.innerHeight(), 0));
+            .width(round(max(w - $border.outerWidth() + $border.innerWidth(), 0)))
+            .height(round(max(h - $border.outerHeight() + $border.innerHeight(), 0)));
 
         /* Arrange the outer area elements */
         $($outer[0]).css({ left: left, top: top,
